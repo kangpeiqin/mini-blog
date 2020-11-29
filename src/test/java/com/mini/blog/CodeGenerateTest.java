@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,16 +23,6 @@ import java.util.Scanner;
  */
 @SpringBootTest
 public class CodeGenerateTest {
-
-    @Test
-    public void generateCode() {
-
-    }
-
-    private void generate() {
-
-    }
-
     /**
      * <p>
      * 读取控制台内容
@@ -65,11 +54,16 @@ public class CodeGenerateTest {
         gc.setOpen(false);
         //实体属性 Swagger2 注解
         gc.setSwagger2(true);
+        //设置baseResultMap
+        gc.setBaseResultMap(true);
+        gc.setFileOverride(true);
+        //设置service
+        gc.setServiceImplName("%sManager");
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/ant?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://192.168.43.57:3306/dance?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("dance");
@@ -79,8 +73,12 @@ public class CodeGenerateTest {
         // 包配置
         PackageConfig pc = new PackageConfig();
         //设置模块名
-        pc.setModuleName(scanner("模块名"));
+//        pc.setModuleName(scanner("模块名"));
+        pc.setModuleName("");
         pc.setParent("com.mini.blog");
+        pc.setController("");
+        pc.setService("");
+        pc.setServiceImpl("manager");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -135,25 +133,27 @@ public class CodeGenerateTest {
         // templateConfig.setController();
 
         templateConfig.setXml(null);
+        templateConfig.setService("");
+        templateConfig.setController("");
         mpg.setTemplate(templateConfig);
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setSuperEntityClass("com.mini.blog.beans.BaseEntity");
+        strategy.setSuperEntityClass("com.mini.blog.entity.BaseEntity");
         strategy.setEntityLombokModel(true);
-        strategy.setRestControllerStyle(true);
-        // 公共父类
-        strategy.setSuperControllerClass("");
+        strategy.setTablePrefix("tb_");
+//        // 公共父类
+//        strategy.setSuperControllerClass("");
         // 写于父类中的公共字段
-        strategy.setSuperEntityColumns("id");
+        strategy.setSuperEntityColumns("id", "create_time", "update_time");
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
-        strategy.setControllerMappingHyphenStyle(true);
-        strategy.setTablePrefix(pc.getModuleName() + "_");
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
+
+
     }
 
 }

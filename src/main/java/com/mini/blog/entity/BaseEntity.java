@@ -1,4 +1,4 @@
-package com.mini.blog.beans;
+package com.mini.blog.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,10 +14,13 @@ import java.time.LocalDate;
 @Data
 @ApiModel(value = "实体类公共字段", description = "实体类公共字段")
 public class BaseEntity implements Serializable {
+
     @ApiModelProperty("主键")
     private Long id;
+
     @ApiModelProperty("创建时间")
     private LocalDate createTime;
+
     @ApiModelProperty("更新时间")
     private LocalDate updateTime;
 }
