@@ -4,12 +4,14 @@ server:
 spring:
   redis:
     database: 0
-    host: 192.168.43.57
+#    host: 192.168.43.57
+    host: 192.168.31.17
     port: 6379
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.43.57:3306/dance?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+#    url: jdbc:mysql://192.168.43.57:3306/dance?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://192.168.31.17:3306/dance?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: dance
     password: dance
 

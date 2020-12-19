@@ -4,19 +4,34 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.mini.blog.entity.Post">
-        <result column="id" property="id" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="title" property="title" />
-        <result column="description" property="description" />
-        <result column="original_content" property="originalContent" />
-        <result column="format_content" property="formatContent" />
-        <result column="post_status" property="postStatus" />
-        <result column="url" property="url" />
-        <result column="browse_times" property="browseTimes" />
-        <result column="category_id" property="categoryId" />
-        <result column="allowComment" property="allowcomment" />
-        <result column="recommend" property="recommend" />
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="title" property="title"/>
+        <result column="description" property="description"/>
+        <result column="original_content" property="originalContent"/>
+        <result column="format_content" property="formatContent"/>
+        <result column="post_status" property="postStatus"/>
+        <result column="url" property="url"/>
+        <result column="browse_times" property="browseTimes"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="allowComment" property="allowcomment"/>
+        <result column="recommend" property="recommend"/>
     </resultMap>
 
+    <select id="findPage" resultType="com.mini.blog.beans.vo.PostListVO">
+        SELECT
+	    po.id,
+	    po.title,
+	    po.description,
+	    po.browse_times,
+	    ca.NAME category_name,
+	    GROUP_CONCAT(ta.name) AS tags
+        FROM
+	    tb_post po
+	    LEFT JOIN tb_category ca ON po.category_id = ca.id
+	    LEFT JOIN tb_post_tag pt ON po.id = pt.post_id
+	    LEFT JOIN tb_tag ta ON ta.id = pt.tag_id
+	    GROUP BY id
+    </select>
 </mapper>
