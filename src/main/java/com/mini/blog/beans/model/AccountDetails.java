@@ -1,5 +1,6 @@
 package com.mini.blog.beans.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mini.blog.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ import java.util.Collection;
 @AllArgsConstructor
 public class AccountDetails implements UserDetails {
 
+    @JsonIgnore
     private User user;
 
     @Override
@@ -35,7 +37,7 @@ public class AccountDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return !user.getExpired();
     }
 
     @Override

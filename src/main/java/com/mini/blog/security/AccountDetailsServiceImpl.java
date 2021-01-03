@@ -23,7 +23,11 @@ public class AccountDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         User user = userManager.getOne(Wrappers.lambdaQuery(User.class).eq(User::getUsername, username));
-        return user == null ? null : new AccountDetails(user);
+        if (user == null) {
+            throw new UsernameNotFoundException("用户名或者密码错误");
+        }
+        return new AccountDetails(user);
     }
 }

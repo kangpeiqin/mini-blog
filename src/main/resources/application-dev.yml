@@ -4,14 +4,14 @@ server:
 spring:
   redis:
     database: 0
-#    host: 192.168.43.57
-    host: 192.168.31.17
+    host: 192.168.43.57
+    #    host: 192.168.31.17
     port: 6379
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://192.168.43.57:3306/dance?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    url: jdbc:mysql://192.168.31.17:3306/dance?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://192.168.43.57:3306/dance?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    #    url: jdbc:mysql://192.168.31.17:3306/dance?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: dance
     password: dance
 
@@ -25,3 +25,6 @@ logging:
 # 声明mapper.xml的位置
 mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml
+
+jwt:
+  secret: bPem0BaWWLT8oYg7NGLsDhKLlTqfgIYVaQex5vDN8Qc= #JWT密钥
