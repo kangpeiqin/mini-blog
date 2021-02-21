@@ -16,7 +16,7 @@ public class CommentDetailsConverter {
         CommentDetails commentDetails = CommentDetails.builder().
                 id(comment.getId()).createDate(comment.getCreateTime().toString())
                 .commentUser(CommentUser.builder().id(comment.getIpAddr())
-                        .nickName(comment.getAuthor()).avatar("http://127.0.0.1:8085/image/37d9cae7-16a7-4a94-99d3-bb3966ef8ec0.png").build())
+                        .nickName(comment.getAuthor()).build())
                 .content(comment.getContent()).build();
         return commentDetails;
     }

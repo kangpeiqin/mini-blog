@@ -26,11 +26,11 @@ public class Comment extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "评论者")
-    @NotBlank
+    @NotBlank(message = "请填写用户名")
     private String author;
 
     @ApiModelProperty(value = "邮箱")
-    @NotBlank
+    @NotBlank(message = "请填写邮箱")
     private String email;
 
     @ApiModelProperty(value = "ip地址")
@@ -41,7 +41,7 @@ public class Comment extends BaseEntity {
     private String postId;
 
     @ApiModelProperty(value = "评论内容")
-    @NotBlank
+    @NotBlank(message = "请填写评论内容")
     private String content;
 
     @ApiModelProperty(value = "是否展示评论")
