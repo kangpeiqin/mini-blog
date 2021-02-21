@@ -3,12 +3,14 @@ package com.mini.blog.config;
 import com.mini.blog.security.Handler.AuthFailureHandler;
 import com.mini.blog.security.Handler.AuthSuccessHandler;
 import com.mini.blog.Constant.SecurityConstants;
-import com.mini.blog.security.filter.ClientValidateFilter;
+import com.mini.blog.security.filter.JwtAuthorizationFilter;
 import com.mini.blog.security.filter.PreLoginFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -30,13 +32,16 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
+    private JwtProperties jwtProperties;
+
+    @Resource
     private AuthSuccessHandler authSuccessHandler;
 
     @Resource
     private AuthFailureHandler authFailureHandler;
 
-    @Resource
-    private ClientValidateFilter clientValidateFilter;
+//    @Resource
+//    private ClientValidateFilter clientValidateFilter;
 
     /**
      * 密码编码器
@@ -50,8 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(clientValidateFilter,UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new PreLoginFilter(), UsernamePasswordAuthenticationFilter.class)
+//        http.addFilterBefore(clientValidateFilter,UsernamePasswordAuthenticationFilter.class)
+        http.addFilterBefore(new PreLoginFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 .usernameParameter("username")
                 .passwordParameter("password")
@@ -63,7 +68,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(SecurityConstants.SWAGGER_WHITELIST)
                 .permitAll()
                 .anyRequest().authenticated()
-                .and().cors(withDefaults()).csrf().disable();
+                .and()
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtProperties.getSecretKey()))
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .cors(withDefaults()).csrf().disable();
 
 //        http.cors(withDefaults())
 //                csrf是指什么

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 
 /**
+ * 全局异常处理
  * @author kpq
  * @since 1.0.0
  */

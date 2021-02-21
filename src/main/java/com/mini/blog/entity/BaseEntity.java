@@ -1,7 +1,11 @@
 package com.mini.blog.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,12 +19,14 @@ import java.time.LocalDate;
 @ApiModel(value = "实体类公共字段", description = "实体类公共字段")
 public class BaseEntity implements Serializable {
 
-    @ApiModelProperty("主键")
-    private Long id;
+    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    private String id;
 
-    @ApiModelProperty("创建时间")
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate createTime;
 
-    @ApiModelProperty("更新时间")
+    @TableField(value = "update_time", fill = FieldFill.UPDATE)
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate updateTime;
 }

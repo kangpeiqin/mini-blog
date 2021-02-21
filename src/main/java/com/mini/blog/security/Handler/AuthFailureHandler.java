@@ -1,6 +1,6 @@
 package com.mini.blog.security.Handler;
 
-import com.mini.blog.beans.vo.ResultVO;
+import com.mini.blog.model.vo.ResultVO;
 import com.mini.blog.enums.AuthFailureType;
 import com.mini.blog.utils.ResponseUtils;
 import org.springframework.security.authentication.*;

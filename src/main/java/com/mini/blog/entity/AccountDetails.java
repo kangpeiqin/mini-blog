@@ -1,4 +1,4 @@
-package com.mini.blog.beans.model;
+package com.mini.blog.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mini.blog.entity.User;

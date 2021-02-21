@@ -1,7 +1,10 @@
-package com.mini.blog.beans.vo;
+package com.mini.blog.model.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,7 +18,7 @@ import java.time.LocalDateTime;
 public class PostListVO {
 
     @ApiModelProperty("主键")
-    private Long id;
+    private String id;
 
     @ApiModelProperty("文章标题")
     private String title;
@@ -30,7 +33,19 @@ public class PostListVO {
     private String categoryName;
 
     @ApiModelProperty("文章更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime updateTime;
+
+    @ApiModelProperty("文章更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime createTime;
+
+    @ApiModelProperty(value = "封面图片")
+    private String coverImage;
+
+    @ApiModelProperty(value = "是否允许被评论")
+    @TableField("allowComment")
+    private String allowComment;
 
     @ApiModelProperty("文章标签")
     String tags;

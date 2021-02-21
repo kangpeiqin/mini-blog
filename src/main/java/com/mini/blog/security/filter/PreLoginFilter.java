@@ -1,12 +1,14 @@
 package com.mini.blog.security.filter;
 
-import com.mini.blog.beans.vo.ResultVO;
+import cn.hutool.core.lang.Validator;
+import cn.hutool.http.HttpStatus;
+import com.mini.blog.model.vo.ResultVO;
 import com.mini.blog.Constant.SecurityConstants;
-import com.mini.blog.utils.JwtUtils;
 import com.mini.blog.utils.ResponseUtils;
-import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -22,23 +24,19 @@ import java.io.IOException;
 @Slf4j
 public class PreLoginFilter extends OncePerRequestFilter {
 
+    private PathMatcher pathMatcher = new AntPathMatcher();
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (SecurityConstants.LOGIN_URL.equals(request.getRequestURI())
-                && HttpMethod.POST.name().equalsIgnoreCase(request.getMethod())) {
-            log.debug("过滤请求。。。。。。");
-        } else {
-            String token = request.getHeader("Authorization");
-            if (token == null || !token.startsWith("Bearer")) {
-                ResponseUtils.jsonResponse(request, response, ResultVO.error(500, "无权限访问"));
-                return;
+        //登录参数预校验
+        if (pathMatcher.match(SecurityConstants.LOGIN_URL, request.getRequestURI())) {
+            String username = request.getParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY);
+            String password = request.getParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY);
+            if (!Validator.isEmail(username)) {
+                ResponseUtils.jsonResponse(request, response, ResultVO.error(HttpStatus.HTTP_BAD_REQUEST, "请输入正确的邮箱"));
             }
-            try {
-                Jwts.parserBuilder().setSigningKey(JwtUtils.SECRET_KEY).build().parseClaimsJws(token.replace("Bearer ", ""));
-                filterChain.doFilter(request, response);
-                return;
-            } catch (Exception e) {
-                ResponseUtils.jsonResponse(request, response, ResultVO.error(500, e.getMessage()));
+            if (Validator.isEmpty(password.trim())) {
+                ResponseUtils.jsonResponse(request, response, ResultVO.error(HttpStatus.HTTP_BAD_REQUEST, "密码不能为空"));
             }
         }
         filterChain.doFilter(request, response);

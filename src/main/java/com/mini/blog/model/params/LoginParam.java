@@ -1,7 +1,8 @@
-package com.mini.blog.beans.params;
+package com.mini.blog.model.params;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Size;
  */
 @Data
 @ApiModel("登录参数")
+@Builder
 public class LoginParam {
 
     @ApiModelProperty("用户名")

@@ -1,11 +1,13 @@
 package com.mini.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.mini.blog.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -24,25 +26,31 @@ public class Comment extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "评论者")
+    @NotBlank
     private String author;
 
     @ApiModelProperty(value = "邮箱")
+    @NotBlank
     private String email;
 
     @ApiModelProperty(value = "ip地址")
     private String ipAddr;
 
     @ApiModelProperty(value = "评论文章id")
-    private Long postId;
+    @NotBlank
+    private String postId;
 
     @ApiModelProperty(value = "评论内容")
+    @NotBlank
     private String content;
 
     @ApiModelProperty(value = "是否展示评论")
-    private String commentStatus;
+    @NotNull
+    private Boolean commentStatus;
 
     @ApiModelProperty(value = "父评论id")
-    private Long parentId;
+    @NotBlank
+    private String parentId;
 
 
 }

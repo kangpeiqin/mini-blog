@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 1.0.0
  */
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/admin/test")
 public class TestController {
 
     @GetMapping

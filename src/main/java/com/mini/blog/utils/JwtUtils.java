@@ -6,11 +6,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.crypto.SecretKey;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 参考文档：https://github.com/jwtk/jjwt#jws-key-create-secret
@@ -20,46 +23,81 @@ import java.util.Date;
  */
 public class JwtUtils {
 
-    /**
-     * 生成足够的安全随机密钥，以适合符合规范的签名
-     */
-
-    private static final byte[] API_KEY_SECRET_BYTES = DatatypeConverter.parseBase64Binary(SecurityConstants.JWT_SECRET_KEY);
-    public static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(API_KEY_SECRET_BYTES);
+//    /**
+//     * 生成足够的安全随机密钥，以适合符合规范的签名
+//     */
+//
+//    private static final byte[] API_KEY_SECRET_BYTES = DatatypeConverter.parseBase64Binary(SecurityConstants.JWT_SECRET_KEY);
+//    public static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(API_KEY_SECRET_BYTES);
+//
+//    /**
+//     * 生成token
+//     */
+//    public static String createToken(String username, String id, boolean isRememberMe) {
+//        long expiration = isRememberMe ? SecurityConstants.EXPIRATION_REMEMBER : SecurityConstants.EXPIRATION;
+//        final Date createdDate = new Date();
+//        final Date expirationDate = new Date(createdDate.getTime() + expiration * 1000);
+//        String token = Jwts.builder()
+//                .setHeaderParam("type", "JWT")
+//                .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
+//                .setId(id)
+//                .setIssuer("admin")
+//                .setIssuedAt(createdDate)
+//                .setSubject(username)
+//                .setExpiration(expirationDate)
+//                .compact();
+//        return SecurityConstants.TOKEN_PREFIX + token;
+//    }
 
     /**
      * 生成token
+     *
+     * @param id
+     * @param username
+     * @param expiration
+     * @param secretKey
+     * @return
      */
-    public static String createToken(String username, String id, boolean isRememberMe) {
-        long expiration = isRememberMe ? SecurityConstants.EXPIRATION_REMEMBER : SecurityConstants.EXPIRATION;
-        final Date createdDate = new Date();
-        final Date expirationDate = new Date(createdDate.getTime() + expiration * 1000);
+    public static String generateToken(String id, String username, Long expiration, SecretKey secretKey) {
+        Date generateDate = new Date();
+        final Date expirationDate = new Date(generateDate.getTime() + expiration * 1000);
         String token = Jwts.builder()
-                .setHeaderParam("type", "JWT")
-                .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .setId(id)
+                .setHeaderParam("type", "JWT")
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .setIssuer("admin")
-                .setIssuedAt(createdDate)
+                .setIssuedAt(generateDate)
                 .setSubject(username)
                 .setExpiration(expirationDate)
                 .compact();
-        return "Bearer " + token;
+        return SecurityConstants.TOKEN_PREFIX + token;
     }
 
-    public static String generateToken() {
-        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
-        String token = Jwts.builder().setSubject("Joe").signWith(key).compact();
-        return "Bearer " + token;
+    /**
+     * 通过token获取登录凭证
+     *
+     * @param token
+     * @param secretKey
+     * @return
+     */
+    public static UsernamePasswordAuthenticationToken getAuthentication(String token, SecretKey secretKey) {
+        Claims claims = getClaims(token, secretKey);
+        String userName = claims.getSubject();
+        return new UsernamePasswordAuthenticationToken(userName, token, null);
     }
 
 
-    public static Claims getClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody();
+    /**
+     * 解析token,获取身份凭证
+     *
+     * @param token
+     * @param secretKey
+     * @return
+     */
+    public static Claims getClaims(String token, SecretKey secretKey) {
+        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
     }
+
 
     public static void main(String[] args) {
         //利用HMAC-SHA算法生成一个随机密钥

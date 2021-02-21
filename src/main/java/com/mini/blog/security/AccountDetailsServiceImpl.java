@@ -1,7 +1,7 @@
 package com.mini.blog.security;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.mini.blog.beans.model.AccountDetails;
+import com.mini.blog.entity.AccountDetails;
 import com.mini.blog.entity.User;
 import com.mini.blog.manager.UserManager;
 import org.springframework.security.core.userdetails.UserDetails;

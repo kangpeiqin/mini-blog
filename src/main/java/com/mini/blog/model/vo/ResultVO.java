@@ -1,4 +1,4 @@
-package com.mini.blog.beans.vo;
+package com.mini.blog.model.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

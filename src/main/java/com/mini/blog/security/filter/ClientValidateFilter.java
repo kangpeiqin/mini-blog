@@ -2,15 +2,13 @@ package com.mini.blog.security.filter;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.mini.blog.Constant.ClientConstants;
-import com.mini.blog.beans.vo.ResultVO;
+import com.mini.blog.model.vo.ResultVO;
 import com.mini.blog.entity.Client;
 import com.mini.blog.manager.ClientManager;
-import com.mini.blog.Constant.SecurityConstants;
 import com.mini.blog.utils.ResponseUtils;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -28,7 +26,7 @@ import java.util.stream.Collectors;
  * @author kpq
  * @since 1.0.0
  */
-@Component
+//@Component
 public class ClientValidateFilter extends OncePerRequestFilter {
 
     @Resource

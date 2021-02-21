@@ -1,7 +1,7 @@
 package com.mini.blog.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mini.blog.beans.vo.ResultVO;
+import com.mini.blog.model.vo.ResultVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

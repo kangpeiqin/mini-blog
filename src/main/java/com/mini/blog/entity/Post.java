@@ -7,6 +7,10 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
+
 
 /**
  * <p>
@@ -25,22 +29,28 @@ public class Post extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "标题")
+    @NotBlank
+    @Size(max = 100, message = "文章标题的字符长度不能超过 {max}")
     private String title;
 
     @ApiModelProperty(value = "文章简介")
+    @NotBlank
     private String description;
 
     @ApiModelProperty(value = "原始内容")
+    @NotBlank
     private String originalContent;
 
     @ApiModelProperty(value = "格式化内容")
     private String formatContent;
 
     @ApiModelProperty(value = "发布状态")
+    @NotBlank
     private String postStatus;
 
-    @ApiModelProperty(value = "发布的链接")
-    private String url;
+    @ApiModelProperty(value = "封面图片")
+    @NotBlank
+    private String coverImage;
 
     @ApiModelProperty(value = "浏览次数")
     private Long browseTimes;
@@ -49,10 +59,13 @@ public class Post extends BaseEntity {
     private String categoryId;
 
     @ApiModelProperty(value = "是否允许被评论")
-    @TableField("allowComment")
-    private String allowcomment;
+    private Boolean allowComment;
 
     @ApiModelProperty(value = "文章是否被推荐")
     private String recommend;
+
+    public Integer getPostYear(LocalDate createTime){
+        return createTime.getYear();
+    }
 
 }

@@ -10,4 +10,15 @@
         <result column="name" property="name" />
     </resultMap>
 
+    <select id="findPage" resultType="com.mini.blog.model.vo.CategoryVO">
+        SELECT
+        a.id,
+        a.name,
+        a.create_time,
+        IFNULL(b.post_num,0) post_num
+        FROM tb_category a LEFT JOIN
+        (SELECT ca.category_id, COUNT(ca.category_id) as post_num FROM tb_post ca GROUP BY ca.category_id) b
+        ON a.id = b.category_id
+    </select>
+
 </mapper>

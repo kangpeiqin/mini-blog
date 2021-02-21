@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- *  文章标签关联表 
+ * 文章标签关联表
  * </p>
  *
  * @author generator
@@ -18,16 +18,16 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("tb_post_tag")
-@ApiModel(value="PostTag对象", description=" 文章标签关联表 ")
+@ApiModel(value = "PostTag对象", description = " 文章标签关联表 ")
 public class PostTag extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "文章id")
-    private Long postId;
+    private String postId;
 
     @ApiModelProperty(value = "标签id")
-    private Long tagId;
+    private String tagId;
 
 
 }

@@ -12,26 +12,39 @@
         <result column="original_content" property="originalContent"/>
         <result column="format_content" property="formatContent"/>
         <result column="post_status" property="postStatus"/>
-        <result column="url" property="url"/>
+        <result column="cover_image" property="coverImage"/>
         <result column="browse_times" property="browseTimes"/>
         <result column="category_id" property="categoryId"/>
-        <result column="allowComment" property="allowcomment"/>
+        <result column="allow_comment" property="allowComment"/>
         <result column="recommend" property="recommend"/>
     </resultMap>
 
-    <select id="findPage" resultType="com.mini.blog.beans.vo.PostListVO">
+    <select id="findPage" parameterType="string" resultType="com.mini.blog.model.vo.PostListVO">
         SELECT
-	    po.id,
-	    po.title,
-	    po.description,
-	    po.browse_times,
-	    ca.NAME category_name,
-	    GROUP_CONCAT(ta.name) AS tags
+        po.id,
+        po.title,
+        po.cover_image,
+        po.description,
+        po.browse_times,
+        ca.NAME category_name,
+        GROUP_CONCAT(ta.name) AS tags
         FROM
-	    tb_post po
-	    LEFT JOIN tb_category ca ON po.category_id = ca.id
-	    LEFT JOIN tb_post_tag pt ON po.id = pt.post_id
-	    LEFT JOIN tb_tag ta ON ta.id = pt.tag_id
-	    GROUP BY id
+        tb_post po
+        LEFT JOIN tb_category ca ON po.category_id = ca.id
+        LEFT JOIN tb_post_tag pt ON po.id = pt.post_id
+        LEFT JOIN tb_tag ta ON ta.id = pt.tag_id
+        GROUP BY id
+        <if test="keyWord != null and keyWord != ''">
+            HAVING po.title LIKE CONCAT('%',#{keyWord},'%')
+        </if>
+        ORDER BY po.create_time DESC
+    </select>
+
+    <select id="findByCategoryId" resultType="com.mini.blog.model.vo.PostListVO">
+        SELECT a.id,a.title,a.create_time FROM tb_post a WHERE a.category_id = #{categoryId}
+    </select>
+
+    <select id="listByPage" resultType="com.mini.blog.entity.Post">
+        SELECT a.id,a.title,a.create_time FROM tb_post a ORDER BY a.create_time DESC
     </select>
 </mapper>
