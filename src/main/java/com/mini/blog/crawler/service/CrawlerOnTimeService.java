@@ -1,17 +1,12 @@
 package com.mini.blog.crawler.service;
 
-import com.mini.blog.crawler.constant.UriConstant;
-import com.mini.blog.crawler.utils.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 /**
