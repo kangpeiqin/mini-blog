@@ -47,31 +47,6 @@ public class GitHubTrendingController {
     @GetMapping("/developer")
     @ApiOperation(value = "获取github trending开发者信息")
     public ResultVO getDeveloper() {
-        List<Developer> list = new ArrayList<>();
-        try {
-            String html = HttpUtil.httpGet(UriConstant.GITHUB_TRENDING_URI + "developers", new HashMap<>(4));
-            Document doc = Jsoup.parse(html);
-            Elements articles = doc.getElementsByClass("Box-row d-flex");
-            articles.forEach(article -> {
-                        Developer developer = new Developer();
-                        Element user = article.getElementsByClass("rounded-1 avatar-user").first();
-                        developer.setAvatar(user.attr("src"));
-                        Element element = article.getElementsByClass("h3 lh-condensed").first().getElementsByTag("a").first();
-                        developer.setAuthor(element.text());
-                        developer.setAccountLink(UriConstant.GITHUB_URI + element.attr("href"));
-                        if (article.getElementsByClass("h4 lh-condensed").first() != null) {
-                            Element element1 = article.getElementsByClass("h4 lh-condensed").first().getElementsByTag("a").first();
-                            developer.setPopularRepoName(element1.text());
-                            developer.setPopularRepoUrl(UriConstant.GITHUB_URI + element1.attr("href"));
-                            Element element2 = article.getElementsByClass("f6 text-gray mt-1").first();
-                            developer.setPopularRepoDescription(element2.text());
-                        }
-                        list.add(developer);
-                    }
-            );
-        } catch (Exception e) {
-            log.error("请求或者解析出错{}", e.getMessage());
-        }
-        return ResultVO.success(list);
+        return ResultVO.success(gitHubTrendingService.getDevelopers());
     }
 }
