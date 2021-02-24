@@ -29,7 +29,7 @@ public class CacheConfig {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager();
         cacheManager.setCacheNames(Arrays.asList("github-cache", "trending"));
         cacheManager.setCaffeine(Caffeine.newBuilder()
-                .expireAfterAccess(2, TimeUnit.HOURS));
+                .expireAfterAccess(24, TimeUnit.HOURS));
         return cacheManager;
     }
 
