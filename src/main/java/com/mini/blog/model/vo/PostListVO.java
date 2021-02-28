@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 /**
@@ -44,8 +45,13 @@ public class PostListVO {
     private String coverImage;
 
     @ApiModelProperty(value = "是否允许被评论")
-    @TableField("allowComment")
-    private String allowComment;
+    private Boolean allowComment;
+
+    @ApiModelProperty(value = "是否推荐")
+    private Boolean recommend;
+
+    @ApiModelProperty(value = "发布状态")
+    private Boolean postStatus;
 
     @ApiModelProperty("文章标签")
     String tags;

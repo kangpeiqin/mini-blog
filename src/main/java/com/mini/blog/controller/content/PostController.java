@@ -1,8 +1,7 @@
-package com.mini.blog.controller;
+package com.mini.blog.controller.content;
 
 import com.mini.blog.entity.Post;
-import com.mini.blog.model.dto.common.BaseDTO;
-import com.mini.blog.model.dto.PostDTO;
+import com.mini.blog.model.dto.PostQryDTO;
 import com.mini.blog.model.vo.ResultVO;
 import com.mini.blog.service.PostService;
 import io.swagger.annotations.Api;
@@ -12,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 
 /**
  * @author kpq
@@ -35,8 +33,11 @@ public class PostController {
     @ApiOperation("文章分页列表")
     public ResultVO findPage(@RequestParam(value = "pageNum", defaultValue = "1") Long pageNum,
                              @RequestParam(value = "pageSize", defaultValue = "10") Long pageSize,
-                             @RequestParam(value = "keyWord", required = false) String keyWord) {
-        return ResultVO.success(postService.findPage(pageNum, pageSize, keyWord));
+                             @RequestParam(value = "keyWord", required = false) String keyWord,
+                             @RequestParam(value = "postStatus", required = false) String postStatus
+    ) {
+        PostQryDTO qryDTO = PostQryDTO.builder().keyWord(keyWord).postStatus(postStatus).build();
+        return ResultVO.success(postService.findPage(pageNum, pageSize, qryDTO));
     }
 
     @GetMapping("{postId:\\w+}")
@@ -45,31 +46,15 @@ public class PostController {
         return ResultVO.success(postService.getById(postId));
     }
 
-    @PostMapping
-    @ApiOperation("新增")
-    public ResultVO insert(@Valid @RequestBody PostDTO postDTO) {
-        postService.insert(postDTO);
-        return ResultVO.success(null);
-    }
-
-    @PutMapping
-    @ApiOperation("更新")
-    public ResultVO update(@Valid @RequestBody PostDTO postDTO) {
-        postService.update(postDTO);
-        return ResultVO.success(null);
-    }
-
-    @DeleteMapping
-    @ApiOperation("删除")
-    public ResultVO delete(@Valid @RequestBody BaseDTO baseDTO) {
-        postService.delete(baseDTO.getIds());
-        return ResultVO.success(null);
-    }
-
     @GetMapping("/archives")
     @ApiOperation("归档")
-    public ResultVO archives(@RequestParam(value = "pageNum",defaultValue = "1") Long pageNum, @RequestParam(value = "pageSize",required = false,defaultValue = "10") Long pageSize) {
+    public ResultVO archives(@RequestParam(value = "pageNum", defaultValue = "1") Long pageNum, @RequestParam(value = "pageSize", required = false, defaultValue = "10") Long pageSize) {
         return ResultVO.success(postService.getArchive(pageNum, pageSize));
     }
 
+    @GetMapping("/recommend")
+    @ApiOperation("获取推荐文章列表")
+    public ResultVO getRecommendList() {
+        return ResultVO.success(postService.getRecommendList());
+    }
 }

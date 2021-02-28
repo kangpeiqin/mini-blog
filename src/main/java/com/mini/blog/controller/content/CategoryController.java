@@ -1,6 +1,5 @@
-package com.mini.blog.controller;
+package com.mini.blog.controller.content;
 
-import com.mini.blog.model.vo.CategoryVO;
 import com.mini.blog.model.vo.ResultVO;
 import com.mini.blog.service.CategoryService;
 import io.swagger.annotations.Api;
@@ -24,13 +23,19 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    @ApiOperation("获取所有分类")
+    @ApiOperation("分类目录分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum",value = "当前页",dataType = "Long"),
             @ApiImplicitParam(name = "pageSize",value = "分页大小",dataType = "Long")
     })
-    public ResultVO listAll(@RequestParam("pageNum") Long pageNum,@RequestParam(value = "pageSize",required = false,defaultValue = "10") Long pageSize) {
-        return ResultVO.success(categoryService.listAll(pageNum,pageSize));
+    public ResultVO findPage(@RequestParam("pageNum") Long pageNum,@RequestParam(value = "pageSize",required = false,defaultValue = "10") Long pageSize) {
+        return ResultVO.success(categoryService.findPage(pageNum,pageSize));
+    }
+
+    @GetMapping("/all")
+    @ApiOperation("查找所有分类")
+    public ResultVO findAll(){
+        return ResultVO.success(categoryService.findAll());
     }
 
     @GetMapping("{categoryId:\\w+}")

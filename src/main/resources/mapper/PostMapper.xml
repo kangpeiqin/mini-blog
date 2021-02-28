@@ -27,15 +27,24 @@
         po.description,
         po.browse_times,
         ca.NAME category_name,
+        po.recommend,
+        po.allow_comment,
+        po.create_time,
+        po.update_time,
+        po.post_status,
         GROUP_CONCAT(ta.name) AS tags
         FROM
         tb_post po
         LEFT JOIN tb_category ca ON po.category_id = ca.id
         LEFT JOIN tb_post_tag pt ON po.id = pt.post_id
         LEFT JOIN tb_tag ta ON ta.id = pt.tag_id
-        GROUP BY id
-        <if test="keyWord != null and keyWord != ''">
-            HAVING po.title LIKE CONCAT('%',#{keyWord},'%')
+        GROUP BY po.id
+        HAVING 1=1
+        <if test="qryDTO.keyWord != null and qryDTO.keyWord != ''">
+            AND po.title LIKE CONCAT('%',#{keyWord},'%')
+        </if>
+        <if test="qryDTO.postStatus != null and qryDTO.postStatus != ''">
+            AND po.post_status = #{qryDTO.postStatus}
         </if>
         ORDER BY po.create_time DESC
     </select>
@@ -46,5 +55,22 @@
 
     <select id="listByPage" resultType="com.mini.blog.entity.Post">
         SELECT a.id,a.title,a.create_time FROM tb_post a ORDER BY a.create_time DESC
+    </select>
+
+    <select id="getById" resultType="com.mini.blog.entity.Post">
+        SELECT
+        po.*,ca.name category_name,GROUP_CONCAT(ta.name) AS tags
+        FROM tb_post po
+        LEFT JOIN tb_category ca ON po.category_id = ca.id
+        LEFT JOIN tb_post_tag pt ON po.id = pt.post_id
+        LEFT JOIN tb_tag ta ON ta.id = pt.tag_id
+        GROUP BY po.id
+        HAVING po.id = #{id}
+    </select>
+
+    <select id="getRecommendList" resultType="com.mini.blog.entity.Post">
+        SELECT p.create_time,p.title FROM tb_post p
+        WHERE p.recommend = '1'
+        ORDER BY p.create_time desc  LIMIT 12 OFFSET 1
     </select>
 </mapper>

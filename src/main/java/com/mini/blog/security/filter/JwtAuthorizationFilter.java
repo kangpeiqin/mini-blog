@@ -44,7 +44,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             String token = request.getHeader(SecurityConstants.TOKEN_HEADER);
             if (token == null || !token.startsWith(SecurityConstants.TOKEN_PREFIX)) {
                 SecurityContextHolder.clearContext();
-                chain.doFilter(request, response);
+                ResultVO result = ResultVO.error(HttpStatus.UNAUTHORIZED.value(),"无访问权限");
+                ResponseUtils.jsonResponse(request, response, result);
                 return;
             }
             String tokenValue = token.replace(SecurityConstants.TOKEN_PREFIX, "");

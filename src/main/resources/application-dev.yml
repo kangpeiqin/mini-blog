@@ -7,7 +7,7 @@ server:
 spring:
   redis:
     database: 0
-#    host: 192.168.43.57
+#    host: 192.168.31.17
     host: 192.168.56.101
     port: 6379
 
@@ -48,7 +48,7 @@ mybatis-plus:
 
 jwt:
   key: bPem0BaWWLT8oYg7NGLsDhKLlTqfgIYVaQex5vDN8Qc= #JWT密钥
-  expiration: 3600 #过期时间
+  expiration: 20 #过期时间
 
 storage:
   address: http://127.0.0.1:8085/image/

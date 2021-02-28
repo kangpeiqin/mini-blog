@@ -60,7 +60,7 @@ public class JwtUtils {
      */
     public static String generateToken(String id, String username, Long expiration, SecretKey secretKey) {
         Date generateDate = new Date();
-        final Date expirationDate = new Date(generateDate.getTime() + expiration * 1000);
+        final Date expirationDate = new Date(generateDate.getTime() + expiration * 1000*3600);
         String token = Jwts.builder()
                 .setId(id)
                 .setHeaderParam("type", "JWT")

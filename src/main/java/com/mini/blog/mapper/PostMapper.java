@@ -1,6 +1,7 @@
 package com.mini.blog.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.mini.blog.model.dto.PostQryDTO;
 import com.mini.blog.model.vo.PostListVO;
 import com.mini.blog.entity.Post;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -24,10 +25,10 @@ public interface PostMapper extends BaseMapper<Post> {
      * 文章列表分页查询
      *
      * @param page
-     * @param keyWord
+     * @param qryDTO
      * @return
      */
-    IPage<PostListVO> findPage(IPage<PostListVO> page, @Param("keyWord") String keyWord);
+    IPage<PostListVO> findPage(IPage<PostListVO> page, @Param("qryDTO") PostQryDTO qryDTO);
 
 
     /**
@@ -41,8 +42,24 @@ public interface PostMapper extends BaseMapper<Post> {
 
     /**
      * 博文分页查询
+     *
      * @param page
      * @return
      */
     IPage<Post> listByPage(IPage<Post> page);
+
+    /**
+     * 根据文章id获取文章详情
+     *
+     * @param id
+     * @return
+     */
+    List<Post> getById(String id);
+
+    /**
+     * 获取12篇推荐文章
+     *
+     * @return
+     */
+    List<Post> getRecommendList();
 }

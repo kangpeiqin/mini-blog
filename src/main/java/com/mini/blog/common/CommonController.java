@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * @since 1.0.0
  */
 @RestController
-@RequestMapping("/upload")
+@RequestMapping("/admin/upload")
 @Api(tags = "文件上传")
 public class CommonController {
 

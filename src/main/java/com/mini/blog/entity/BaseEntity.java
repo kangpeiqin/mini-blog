@@ -22,11 +22,11 @@ public class BaseEntity implements Serializable {
     @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;
 
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @TableField(value = "create_time", fill = FieldFill.UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate createTime;
 
     @TableField(value = "update_time", fill = FieldFill.UPDATE)
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate updateTime;
 }

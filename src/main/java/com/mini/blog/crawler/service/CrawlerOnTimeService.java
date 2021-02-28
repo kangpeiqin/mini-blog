@@ -31,9 +31,9 @@ public class CrawlerOnTimeService {
     @Resource(name = "trendingCacheManager")
     private CacheManager cacheManager;
 
-    @Scheduled(fixedRate = 3600000)
+//    @Scheduled(fixedRate = 3600000)
 //    @Scheduled(cron = "0 0 6,9,18,20 * * ? ")
-    @Async("taskExecutor")
+//    @Async("taskExecutor")
     public void fetchOnTime() {
         Cache trendingCache = cacheManager.getCache("trending");
         if (trendingCache != null) {

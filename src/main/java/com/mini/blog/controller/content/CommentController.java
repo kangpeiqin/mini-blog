@@ -1,4 +1,4 @@
-package com.mini.blog.controller;
+package com.mini.blog.controller.content;
 
 import cn.hutool.extra.servlet.ServletUtil;
 import com.mini.blog.entity.Comment;

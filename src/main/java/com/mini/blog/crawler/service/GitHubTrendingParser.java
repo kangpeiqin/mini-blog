@@ -25,7 +25,8 @@ public class GitHubTrendingParser {
         Elements articles = doc.getElementsByTag("article");
         articles.forEach(article -> {
             //头部信息：可获取仓库标题、作者、链接
-            Element head = article.getElementsByClass("h3 lh-condensed").first().getElementsByTag("a").first();
+            Element head = article.getElementsByClass("h3 lh-condensed").first().
+                    getElementsByTag("a").first();
             Repository repository = new Repository();
             setRepositoryInfo(head, repository);
             //中间为描述
@@ -34,7 +35,7 @@ public class GitHubTrendingParser {
                 repository.setDescription(description.text());
             }
             //底部为stars、forks、contributors等信息
-            Element footer = article.getElementsByClass("f6 text-gray mt-2").first();
+            Element footer = article.getElementsByClass("f6 color-text-secondary mt-2").first();
             setStarsAndForks(footer, repository);
             repository.setProgrammingLanguage(getProgrammingLanguage(footer));
             repository.setContributors(getContributors(footer));
