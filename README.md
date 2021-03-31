@@ -16,21 +16,6 @@
 ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c7ecfcad3ff74ab6948bba9ec0881514~tplv-k3u1fbpfcp-watermark.image)
 - 后台内容管理界面
 ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f343b48337874ad684c8b45c53b54aa5~tplv-k3u1fbpfcp-watermark.image)
-## 如何构建
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-```
 ## 前端项目地址
 <a href="https://github.com/kangpeiqin/vue-blog" target="view_window">https://github.com/kangpeiqin/vue-blog</a>
 
